@@ -62,6 +62,12 @@ if (import.meta.env.DEV) {
       }
     }, 3000)
   }
+  // The translations come with the server boot as well. Only the dev and the
+  // offline (cached boot) paths copied them into _messages, so on a normal
+  // load every string fell back to English whatever the user's language.
+  if (window.frappe?.boot && !window.frappe._messages) {
+    window.frappe._messages = window.frappe.boot["__messages"]
+  }
   initPushNotifications()
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
